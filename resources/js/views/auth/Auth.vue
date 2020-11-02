@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="login" ref="login">
+    <div :class="['login', { 'login-rgister': !LoginActive }]" ref="login">
       <div class="overlay">
         <div class="container my-5 contain">
           <div class="switching text-center">
@@ -14,10 +14,12 @@
               >Register</span
             >
           </div>
-          <transition>
-            <login v-if="LoginActive"></login>
-            <register v-if="!LoginActive"></register>
-          </transition>
+          <keep-alive>
+            <transition>
+              <login v-if="LoginActive"></login>
+              <register v-if="!LoginActive"></register>
+            </transition>
+          </keep-alive>
         </div>
       </div>
     </div>
@@ -91,5 +93,10 @@ export default {
 .contain {
   z-index: 3;
   color: #fff;
+}
+@media (max-width: 767px) {
+  .login-rgister {
+    height: 200%;
+  }
 }
 </style>
