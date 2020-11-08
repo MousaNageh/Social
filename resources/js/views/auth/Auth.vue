@@ -4,10 +4,13 @@
       <div class="overlay">
         <div class="container my-5 contain">
           <div class="switching text-center">
-            <span :class="['mx-1', { active: LoginActive }]" @click="gotoLogin"
+            <span
+              :class="['mx-1', { active: LoginActive }]"
+              @click="gotoLogin"
+              v-if="!hiddenLogin"
               >Sign in
             </span>
-            <span>|</span>
+            <span v-if="!hiddenLogin">|</span>
             <span
               :class="['mx-1', { active: !LoginActive }]"
               @click="gotoRegiseter"
@@ -17,7 +20,7 @@
           <keep-alive>
             <transition>
               <login v-if="LoginActive"></login>
-              <register v-if="!LoginActive"></register>
+              <register v-if="!LoginActive" @hidelogin="hideLogin"></register>
             </transition>
           </keep-alive>
         </div>
@@ -31,7 +34,8 @@ import register from "./Register.vue";
 export default {
   data() {
     return {
-      LoginActive: true
+      LoginActive: true,
+      hiddenLogin: false
     };
   },
   methods: {
@@ -40,6 +44,9 @@ export default {
     },
     gotoRegiseter() {
       this.LoginActive = false;
+    },
+    hideLogin() {
+      this.hiddenLogin = true;
     }
   },
   components: { login, register },
@@ -54,11 +61,11 @@ export default {
       },
       3000,
       [
-        "storage/login/1.jpg",
-        "storage/login/2.jpg",
-        "storage/login/3.jpg",
-        "storage/login/4.jpg",
-        "storage/login/5.jpg"
+        "/storage/login/1.jpg",
+        "/storage/login/2.jpg",
+        "/storage/login/3.jpg",
+        "/storage/login/4.jpg",
+        "/storage/login/5.jpg"
       ]
     );
   }

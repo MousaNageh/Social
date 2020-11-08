@@ -7,7 +7,8 @@ exports["default"] = void 0;
 var state = {
   userId: '',
   userSlug: '',
-  userToken: ''
+  userToken: localStorage.getItem("token") ? localStorage.getItem("token") : "",
+  user: {}
 };
 var mutations = {
   'SET_USER_ID': function SET_USER_ID(state, userId) {
@@ -18,20 +19,37 @@ var mutations = {
   },
   'SET_USER_TOKEN': function SET_USER_TOKEN(state, userToken) {
     state.userToken = userToken;
+  },
+  'SET_USER': function SET_USER(state, user) {
+    state.user = user;
+  },
+  'CLEAR_TOKEN': function CLEAR_TOKEN(state) {
+    state.userToken = '';
+    localStorage.removeItem("expiresIn");
+    localStorage.removeItem("token");
   }
 };
 var actions = {
-  setUserId: function setUserId(_ref, userId) {
+  register: function register(_ref, data) {
     var commit = _ref.commit;
-    commit('SET_USER_ID', userId);
+    commit('SET_USER_ID', data.user.id);
+    commit('SET_USER_SLUG', data.user.slug);
+    commit('SET_USER_TOKEN', data.token);
+    commit('SET_USER', data.user);
+    localStorage.setItem("token", data.token);
+    var timing = new Date().getTime() + 2592000000;
+    var expireDate = new Date(timing);
+    localStorage.setItem("expiresIn", expireDate);
   },
-  setUserSlug: function setUserSlug(_ref2, userSlug) {
+  login: function login(_ref2, user) {
     var commit = _ref2.commit;
-    commit('SET_USER_SLUG', userSlug);
+    commit('SET_USER_ID', user.id);
+    commit('SET_USER_SLUG', user.slug);
+    commit('SET_USER', user);
   },
-  setUserToken: function setUserToken(_ref3, userToken) {
+  cleanToken: function cleanToken(_ref3) {
     var commit = _ref3.commit;
-    commit('SET_USER_TOKEN', userToken);
+    commit('CLEAR_TOKEN');
   }
 };
 var getters = {
@@ -43,6 +61,9 @@ var getters = {
   },
   getUserToken: function getUserToken(state) {
     return state.userToken;
+  },
+  getUser: function getUser(state) {
+    return state.user;
   }
 };
 var _default = {

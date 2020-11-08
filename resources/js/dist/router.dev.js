@@ -13,6 +13,8 @@ var _store = _interopRequireDefault(require("./store/store"));
 
 var _Auth = _interopRequireDefault(require("./views/auth/Auth.vue"));
 
+var _Post = _interopRequireDefault(require("./views/posts/Post.vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].use(_vueRouter["default"]);
@@ -23,14 +25,18 @@ var routes = [{
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store["default"].getters.getUserToken) {
       next();
-    }
-
-    next("/auth");
-  }
+    } else next("/auth");
+  },
+  component: _Post["default"]
 }, {
   name: "auth",
   path: "/auth",
-  component: _Auth["default"]
+  component: _Auth["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (!_store["default"].getters.getUserToken) {
+      next();
+    } else next("/");
+  }
 }];
 
 var _default = new _vueRouter["default"]({

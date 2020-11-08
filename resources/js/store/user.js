@@ -1,7 +1,8 @@
 const state = {
     userId: '',
     userSlug: '',
-    userToken: ''
+    userToken: localStorage.getItem("token") ? localStorage.getItem("token") : "",
+    user: {}
 }
 const mutations = {
     'SET_USER_ID' (state, userId) {
@@ -12,18 +13,36 @@ const mutations = {
     },
     'SET_USER_TOKEN' (state, userToken) {
         state.userToken = userToken;
+    },
+    'SET_USER' (state, user) {
+        state.user = user;
+    },
+    'CLEAR_TOKEN' (state) {
+        state.userToken = '';
+        localStorage.removeItem("expiresIn");
+        localStorage.removeItem("token");
     }
 }
 const actions = {
-    setUserId({ commit }, userId) {
-        commit('SET_USER_ID', userId)
+    register({ commit }, data) {
+        commit('SET_USER_ID', data.user.id);
+        commit('SET_USER_SLUG', data.user.slug);
+        commit('SET_USER_TOKEN', data.token);
+        commit('SET_USER', data.user);
+        localStorage.setItem("token", data.token);
+        let timing = new Date().getTime() + 2592000000;
+        let expireDate = new Date(timing);
+        localStorage.setItem("expiresIn", expireDate);
     },
-    setUserSlug({ commit }, userSlug) {
-        commit('SET_USER_SLUG', userSlug);
+    login({ commit }, user) {
+        commit('SET_USER_ID', user.id);
+        commit('SET_USER_SLUG', user.slug);
+        commit('SET_USER', user);
     },
-    setUserToken({ commit }, userToken) {
-        commit('SET_USER_TOKEN', userToken)
+    cleanToken({ commit }) {
+        commit('CLEAR_TOKEN');
     }
+
 }
 const getters = {
     getUserID(state) {
@@ -34,6 +53,9 @@ const getters = {
     },
     getUserToken(state) {
         return state.userToken;
+    },
+    getUser(state) {
+        return state.user;
     }
 }
 export default {

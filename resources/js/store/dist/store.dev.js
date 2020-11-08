@@ -16,11 +16,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 _vue["default"].use(_vuex["default"]);
 
 var _default = new _vuex["default"].Store({
-  state: {},
-  actions: {},
-  mutations: {},
-  getters: {},
-  modules: [_user["default"]]
+  state: {
+    loading: false
+  },
+  actions: {
+    load: function load(_ref) {
+      var commit = _ref.commit;
+      commit('LOADING');
+    },
+    stopLoad: function stopLoad(_ref2) {
+      var commit = _ref2.commit;
+      commit('STOP_LOADING');
+    }
+  },
+  mutations: {
+    'LOADING': function LOADING(state) {
+      state.loading = true;
+    },
+    "STOP_LOADING": function STOP_LOADING(state) {
+      state.loading = false;
+    }
+  },
+  getters: {
+    getLoad: function getLoad(state) {
+      return state.loading;
+    }
+  },
+  modules: {
+    user: _user["default"]
+  }
 });
 
 exports["default"] = _default;

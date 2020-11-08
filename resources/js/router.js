@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "./store/store";
 import auth from "./views/auth/Auth.vue"
+import post from "./views/posts/Post.vue";
 Vue.use(VueRouter);
 const routes = [{
         name: "posts",
@@ -9,14 +10,22 @@ const routes = [{
         beforeEnter: (to, from, next) => {
             if (store.getters.getUserToken) {
                 next();
-            }
-            next("/auth");
-        }
+            } else
+                next("/auth");
+        },
+        component: post
     },
     {
         name: "auth",
         path: "/auth",
-        component: auth
+        component: auth,
+        beforeEnter: (to, from, next) => {
+            if (!store.getters.getUserToken) {
+                next();
+            } else
+                next("/");
+        },
+
     }
 ];
 export default new VueRouter({

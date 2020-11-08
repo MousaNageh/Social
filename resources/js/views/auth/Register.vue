@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="loading-data" v-if="loading">
+      <div class="spinner-border"></div>
+    </div>
     <div class="row">
       <div class="col-md-6">
         <transition name="goto" mode="out-in">
@@ -8,6 +11,8 @@
             @gotosecondstep="gotoSecondStep"
             @getname="getName"
             @getgender="getGender"
+            @getemail="getEmail"
+            @getage="getAge"
           ></register1>
           <register2
             v-if="steps.register2"
@@ -38,19 +43,25 @@ export default {
       },
       user: {
         name,
-        gender: "0"
+        gender: "0",
+        email: "",
+        age: ""
       }
     };
   },
   computed: {
     userData() {
       return this.user;
+    },
+    loading() {
+      return this.$store.getters.getLoad;
     }
   },
   methods: {
     gotoSecondStep() {
       this.steps.register1 = this.steps.register3 = false;
       this.steps.register2 = true;
+      this.$emit("hidelogin");
     },
     gotoThridStep() {
       this.steps.register1 = this.steps.register2 = false;
@@ -60,8 +71,13 @@ export default {
       this.user.name = e;
     },
     getGender(e) {
-      console.log(e);
       this.user.gender = e;
+    },
+    getEmail(e) {
+      this.user.email = e;
+    },
+    getAge(e) {
+      this.user.age = e;
     }
   },
   components: {
@@ -100,5 +116,19 @@ export default {
     transform: translateX(0px);
     opacity: 1;
   }
+}
+.loading-data {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+.spinner-border {
+  margin-top: 25%;
 }
 </style>

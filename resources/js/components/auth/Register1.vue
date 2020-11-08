@@ -14,6 +14,7 @@
       </div>
       <div class="form-group ">
         <input
+          autocomplete="off"
           type="name"
           name="name"
           placeholder="name"
@@ -22,20 +23,40 @@
             { 'border-danger': $v.name.$dirty && $v.name.$error }
           ]"
           v-model="name"
-          @blur="$v.$touch()"
+          @blur="$v.name.$touch()"
           @keyup="sendName"
         />
         <small class="text-danger" v-if="$v.name.$dirty && !$v.name.required"
           >name is required
         </small>
+
+        <small class="text-danger" v-if="$v.name.$dirty && !$v.name.unique"
+          >name is used choose anther name .
+        </small>
       </div>
       <div class="form-group">
         <input
+          autocomplete="off"
           type="email"
           name="email"
           placeholder="email"
-          class="form-control"
+          :class="[
+            'form-control',
+            { 'border-danger': $v.email.$dirty && $v.email.$error }
+          ]"
+          @blur="$v.email.$touch()"
+          v-model="email"
+          @keyup="sendEmail"
         />
+        <small class="text-danger" v-if="$v.email.$dirty && !$v.email.required"
+          >email is required
+        </small>
+        <small class="text-danger" v-if="$v.email.$dirty && !$v.email.unique"
+          >email is used choose anther name .
+        </small>
+        <small class="text-danger" v-if="$v.email.$dirty && !$v.email.email"
+          >invalid email
+        </small>
       </div>
       <div class="form-group">
         <input
@@ -43,23 +64,78 @@
           name="age"
           placeholder="age"
           class="form-control"
+          v-model="age"
+          @keyup="sendAge"
+          :class="[
+            'form-control',
+            { 'border-danger': $v.age.$dirty && $v.age.$error }
+          ]"
+          @blur="$v.age.$touch()"
         />
+        <small class="text-danger" v-if="$v.age.$dirty && !$v.age.required"
+          >age is required
+        </small>
+        <small class="text-danger" v-if="$v.age.$dirty && !$v.age.integer"
+          >invalid age
+        </small>
+        <small class="text-danger" v-if="$v.age.$dirty && !$v.age.minVal"
+          >age must be more than {{ $v.age.$params.minVal.min }}
+        </small>
       </div>
       <div class="form-group">
         <input
           type="password"
           name="password"
           placeholder="password"
-          class="form-control"
+          v-model="password"
+          :class="[
+            'form-control',
+            { 'border-danger': $v.password.$dirty && $v.password.$error }
+          ]"
+          @input="$v.password.$touch()"
         />
+        <small
+          class="text-danger"
+          v-if="$v.password.$dirty && !$v.password.required"
+          >password required .
+        </small>
+        <small
+          class="text-danger"
+          v-else-if="$v.password.$dirty && !$v.password.minLen"
+          >password must be more than
+          {{ $v.password.$params.minLen.min }} digits .
+        </small>
+        <small
+          class="text-danger"
+          v-else-if="$v.password.$dirty && !$v.password.containsCaptialLetter"
+          >password must contains at least one captial letter .
+        </small>
       </div>
       <div class="form-group">
         <input
           type="password"
           name="confirm-password"
           placeholder="confirm password"
-          class="form-control"
+          :class="[
+            'form-control',
+            {
+              'border-danger':
+                $v.confirmPassword.$dirty && $v.confirmPassword.$error
+            }
+          ]"
+          @input="$v.confirmPassword.$touch()"
+          v-model="confirmPassword"
         />
+        <small
+          class="text-danger"
+          v-if="$v.confirmPassword.$dirty && !$v.confirmPassword.required"
+          >confirm password is required
+        </small>
+        <small
+          class="text-danger"
+          v-if="$v.confirmPassword.$dirty && !$v.confirmPassword.sameAs"
+          >password does't match .
+        </small>
       </div>
       <div class="form-group text-center">
         <button
@@ -74,7 +150,16 @@
   </div>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
+import formData from "form-data";
+import axios from "axios";
+import {
+  required,
+  email,
+  integer,
+  minValue,
+  minLength,
+  sameAs
+} from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -83,23 +168,87 @@ export default {
       email: "",
       age: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      names: [],
+      emails: []
     };
+  },
+  created() {
+    this.$store.dispatch("load");
+    axios
+      .post("/getnames")
+      .then(res => {
+        res.data.forEach(ele => {
+          this.names.push(ele.name);
+        });
+        res.data.forEach(ele => {
+          this.emails.push(ele.email);
+        });
+        this.$store.dispatch("stopLoad");
+      })
+      .catch(err => {
+        console.error(err);
+      });
   },
   validations: {
     name: {
-      required
+      required,
+      unique(value, vm) {
+        return vm.names.find(ele => ele == value.trim()) ? false : true;
+      }
+    },
+    email: {
+      required,
+      email,
+      unique(value, vm) {
+        return vm.emails.find(ele => ele == value.trim()) ? false : true;
+      }
+    },
+    age: {
+      required,
+      integer,
+      minVal: minValue(12)
+    },
+    password: {
+      required,
+      minLen: minLength(8),
+      containsCaptialLetter(value) {
+        let con = value.search(/[A-Z]/g);
+        if (con == -1) return false;
+        return true;
+      }
+    },
+    confirmPassword: {
+      required,
+      sameAs: sameAs("password")
     }
   },
   methods: {
     gotoNextStep() {
-      this.$emit("gotosecondstep");
+      this.$store.dispatch("load");
+      let form1 = new formData(this.$refs.form1);
+      axios
+        .post("/register", form1)
+        .then(res => {
+          this.$store.dispatch("register", res.data);
+          this.$store.dispatch("stopLoad");
+          this.$emit("gotosecondstep");
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
     sendName() {
       this.$emit("getname", this.name);
     },
     sendGender() {
       this.$emit("getgender", this.gender);
+    },
+    sendEmail() {
+      this.$emit("getemail", this.email);
+    },
+    sendAge() {
+      this.$emit("getage", this.age);
     }
   }
 };

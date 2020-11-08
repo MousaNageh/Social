@@ -20,7 +20,7 @@
         <div class="card-body">
           <ul class="list-group">
             <li class="list-group-item">
-              <h5>
+              <h6>
                 <i
                   class="fa fa-male"
                   aria-hidden="true"
@@ -28,42 +28,52 @@
                 ></i>
                 <i class="fa fa-female" aria-hidden="true" v-else></i>
                 gender : {{ user.gender == 0 ? "male" : "female" }}
-              </h5>
+              </h6>
             </li>
             <li class="list-group-item ">
-              <h5>
+              <h6>
                 <i class="fa fa-user" aria-hidden="true"></i> name :
                 {{ user.name }}
-              </h5>
+              </h6>
             </li>
             <li class="list-group-item">
-              <h5>
-                <i class="fa fa-envelope-o" aria-hidden="true"></i> email :
-              </h5>
+              <h6>
+                <i class="fa fa-envelope-o" aria-hidden="true"></i> email :{{
+                  user.email
+                }}
+              </h6>
             </li>
             <li class="list-group-item">
-              <h5>
+              <h6>
+                <i class="fa fa-birthday-cake" aria-hidden="true"></i> age :{{
+                  user.age
+                }}
+              </h6>
+            </li>
+
+            <li class="list-group-item">
+              <h6>
                 <i class="fa fa-location-arrow" aria-hidden="true"></i>
                 location :
-              </h5>
+              </h6>
             </li>
             <li class="list-group-item">
-              <h5>
+              <h6>
                 <i class="fa fa-home" aria-hidden="true"></i>
                 school :
-              </h5>
+              </h6>
             </li>
             <li class="list-group-item">
-              <h5>
+              <h6>
                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                 university :
-              </h5>
+              </h6>
             </li>
             <li class="list-group-item">
-              <h5>
+              <h6>
                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                 job :
-              </h5>
+              </h6>
             </li>
           </ul>
         </div>
