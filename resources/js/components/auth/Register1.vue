@@ -75,11 +75,14 @@
         <small class="text-danger" v-if="$v.age.$dirty && !$v.age.required"
           >age is required
         </small>
-        <small class="text-danger" v-if="$v.age.$dirty && !$v.age.integer"
+        <small class="text-danger" v-else-if="$v.age.$dirty && !$v.age.integer"
           >invalid age
         </small>
-        <small class="text-danger" v-if="$v.age.$dirty && !$v.age.minVal"
+        <small class="text-danger" v-else-if="$v.age.$dirty && !$v.age.minVal"
           >age must be more than {{ $v.age.$params.minVal.min }}
+        </small>
+        <small class="text-danger" v-else-if="$v.age.$dirty && !$v.age.maxVal"
+          >age must be less than {{ $v.age.$params.maxVal.max }}
         </small>
       </div>
       <div class="form-group">
@@ -158,7 +161,8 @@ import {
   integer,
   minValue,
   minLength,
-  sameAs
+  sameAs,
+  maxValue
 } from "vuelidate/lib/validators";
 export default {
   data() {
@@ -207,7 +211,8 @@ export default {
     age: {
       required,
       integer,
-      minVal: minValue(12)
+      minVal: minValue(12),
+      maxVal: maxValue(120)
     },
     password: {
       required,

@@ -16,6 +16,14 @@ require('./bootstrap');
 
 _axios["default"].defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
+if (localStorage.getItem("token")) {
+  if (localStorage.getItem("expiresIn")) {
+    if (Number(localStorage.getItem("expiresIn")) > new Date().getTime()) {
+      _axios["default"].defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem("token"));
+    }
+  }
+}
+
 _vue["default"].use(_vuelidate["default"]);
 
 _vue["default"].component("app", require("./App.vue")["default"]);

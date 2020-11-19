@@ -17,7 +17,7 @@ export default {
     let now = new Date();
     if (this.$store.getters.getUserToken) {
       if (localStorage.getItem("expiresIn")) {
-        if (localStorage.getItem("expiresIn") > now) {
+        if (Number(localStorage.getItem("expiresIn")) > now.getTime()) {
           axios
             .get("/user", {
               headers: {

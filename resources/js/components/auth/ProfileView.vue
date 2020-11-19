@@ -2,20 +2,30 @@
   <div>
     <div class="profile my-2">
       <div class="card w-100" style="width: 18rem;">
-        <div class="text-center pt-4">
-          <img
-            class="card-img-top user-img"
-            src="/storage/default/male.jpg"
-            v-if="user.gender == 0"
-          />
-          <img
-            class="card-img-top user-img"
-            src="/storage/default/female.jpg"
-            v-else
-          />
+        <div class="text-center pt-4" v-if="!user.avatar">
+          <div v-if="!realImage">
+            <img
+              class="card-img-top user-img"
+              src="/storage/adefltu/male.jpg"
+              v-if="user.gender == 0"
+            />
+            <img
+              class="card-img-top user-img"
+              src="/storage/default/female.jpg"
+              v-else
+            />
+          </div>
+          <img class="card-img-top user-img" :src="realImage" v-else />
         </div>
-        <p class="text-center mt-2">
+        <div class="text-center pt-4" v-else>
+          <img class="card-img-top user-img" :src="userImage" />
+        </div>
+
+        <p class="text-center mt-2" v-if="!user.about">
           about you
+        </p>
+        <p class="text-center mt-2">
+          {{ user.about }}
         </p>
         <div class="card-body">
           <ul class="list-group">
@@ -54,7 +64,7 @@
             <li class="list-group-item">
               <h6>
                 <i class="fa fa-location-arrow" aria-hidden="true"></i>
-                location :
+                location : {{ user.country }}
               </h6>
             </li>
             <li class="list-group-item">
@@ -83,7 +93,29 @@
 </template>
 <script>
 export default {
-  props: ["user"]
+  props: ["user"],
+  data() {
+    return {
+      userAvatar: null
+    };
+  },
+  computed: {
+    userImage() {
+      if (this.user.avatar) {
+        let reader = new FileReader();
+        reader.onload = e => {
+          this.userAvatar = e.target.result;
+        };
+        reader.readAsDataURL(this.user.avatar);
+        return this.userAvatar;
+      }
+    },
+    realImage() {
+      if (this.$store.getters.getUser.profile) {
+        return this.$store.getters.getUser.profile.avatar;
+      } else return "";
+    }
+  }
 };
 </script>
 <style lang="css">

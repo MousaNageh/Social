@@ -17,6 +17,9 @@
           <register2
             v-if="steps.register2"
             @gotothirdstep="gotoThridStep"
+            @changeavatar="changeAvatar"
+            @getcountry="getCountry"
+            @getabout="getAbout"
           ></register2>
           <register3 v-if="steps.register3"></register3>
         </transition>
@@ -45,7 +48,10 @@ export default {
         name,
         gender: "0",
         email: "",
-        age: ""
+        age: "",
+        avatar: "",
+        country: "",
+        about: ""
       }
     };
   },
@@ -78,6 +84,15 @@ export default {
     },
     getAge(e) {
       this.user.age = e;
+    },
+    changeAvatar(e) {
+      this.user.avatar = e;
+    },
+    getCountry(e) {
+      this.user.country = e;
+    },
+    getAbout(e) {
+      this.user.about = e;
     }
   },
   components: {

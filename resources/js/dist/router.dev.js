@@ -37,6 +37,10 @@ var routes = [{
       next();
     } else next("/");
   }
+}, {
+  name: "test",
+  path: "/test",
+  component: _Auth["default"]
 }];
 
 var _default = new _vueRouter["default"]({

@@ -17,7 +17,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-  return $request->user();
+  $profile =  $request->user()->profile;
+  if (!empty($profile))
+    $dataProfile = [
+      "location" => $profile->Location,
+      "avatar" => "/storage/" . $profile->avatar,
+      "about" => $profile->about
+    ];
+  else
+    $dataProfile = [];
+  return response()->json([
+    "info" => $request->user(),
+    "profile" => $dataProfile
+  ], 200);
 });
 Route::post("/getnames", [UserController::class, 'getNames']);
 Route::post("/register", [UserController::class, 'register']);
+Route::middleware(["auth:api"])->post("/register2/{user:slug}", [UserController::class, 'register2']);

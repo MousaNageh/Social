@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import store from "./store/store";
 import auth from "./views/auth/Auth.vue"
 import post from "./views/posts/Post.vue";
+import Register2 from './components/auth/Register2.vue';
 Vue.use(VueRouter);
 const routes = [{
         name: "posts",
@@ -26,6 +27,11 @@ const routes = [{
                 next("/");
         },
 
+    },
+    {
+        name: "test",
+        path: "/test",
+        component: auth
     }
 ];
 export default new VueRouter({

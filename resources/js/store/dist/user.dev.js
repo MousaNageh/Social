@@ -38,8 +38,7 @@ var actions = {
     commit('SET_USER', data.user);
     localStorage.setItem("token", data.token);
     var timing = new Date().getTime() + 2592000000;
-    var expireDate = new Date(timing);
-    localStorage.setItem("expiresIn", expireDate);
+    localStorage.setItem("expiresIn", timing);
   },
   login: function login(_ref2, user) {
     var commit = _ref2.commit;

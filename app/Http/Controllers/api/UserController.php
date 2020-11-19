@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -50,5 +50,31 @@ class UserController extends Controller
 
       return response()->json(["user" => $user, "token" => $token], 200);
     }
+  }
+  public function register2(User $user, Request $request)
+  {
+
+    $validations = Validator::make($request->all(), [
+      "avatar" => "required|image",
+      "about" => "required|max:200|string",
+      "country" => "required|string"
+    ]);
+    if ($validations->fails()) {
+      return response()->json($validations->errors()->all(), 422);
+    }
+    $image = $request->avatar->store("users");
+    $profile = $user->profile()->create([
+      "about" => $request->about,
+      "avatar" => $image,
+      "Location" => $request->country
+    ]);
+    return response()->json([
+      "info" => $user,
+      "profile" => [
+        "about" => $profile->about,
+        "location" => $profile->Location,
+        "avatar" => "/storage/" . $profile->avatar
+      ]
+    ], 200);
   }
 }

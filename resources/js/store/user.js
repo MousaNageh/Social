@@ -31,17 +31,20 @@ const actions = {
         commit('SET_USER', data.user);
         localStorage.setItem("token", data.token);
         let timing = new Date().getTime() + 2592000000;
-        let expireDate = new Date(timing);
-        localStorage.setItem("expiresIn", expireDate);
+        localStorage.setItem("expiresIn", timing);
     },
     login({ commit }, user) {
-        commit('SET_USER_ID', user.id);
-        commit('SET_USER_SLUG', user.slug);
+        commit('SET_USER_ID', user.info.id);
+        commit('SET_USER_SLUG', user.info.slug);
         commit('SET_USER', user);
     },
     cleanToken({ commit }) {
         commit('CLEAR_TOKEN');
+    },
+    setUser({ commit }, user) {
+        commit('SET_USER', user);
     }
+
 
 }
 const getters = {
