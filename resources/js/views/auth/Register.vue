@@ -21,7 +21,12 @@
             @getcountry="getCountry"
             @getabout="getAbout"
           ></register2>
-          <register3 v-if="steps.register3"></register3>
+          <register3
+            v-if="steps.register3"
+            @getschool="getSchool"
+            @getfaculty="getFaculty"
+            @getjob="getJob"
+          ></register3>
         </transition>
       </div>
       <div class="col-md-6 ">
@@ -51,7 +56,10 @@ export default {
         age: "",
         avatar: "",
         country: "",
-        about: ""
+        about: "",
+        school: "",
+        faculty: "",
+        job: ""
       }
     };
   },
@@ -93,6 +101,15 @@ export default {
     },
     getAbout(e) {
       this.user.about = e;
+    },
+    getSchool(e) {
+      this.user.school = e;
+    },
+    getFaculty(e) {
+      this.user.faculty = e;
+    },
+    getJob(e) {
+      this.user.job = e;
     }
   },
   components: {

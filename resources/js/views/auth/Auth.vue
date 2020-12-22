@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div :class="['login', { 'login-rgister': !LoginActive }]" ref="login">
       <div class="overlay">
         <div class="container my-5 contain">
@@ -17,12 +17,10 @@
               >Register</span
             >
           </div>
-          <keep-alive>
-            <transition>
-              <login v-if="LoginActive"></login>
-              <register v-if="!LoginActive" @hidelogin="hideLogin"></register>
-            </transition>
-          </keep-alive>
+          <transition>
+            <login v-if="LoginActive"></login>
+            <register v-if="!LoginActive" @hidelogin="hideLogin"></register>
+          </transition>
         </div>
       </div>
     </div>
@@ -55,9 +53,7 @@ export default {
       function(img) {
         let x = Math.floor(Math.random() * img.length);
         let login = document.querySelector(".login");
-        login.style.opacity = 0;
         login.style.backgroundImage = `url(${img[x]})`;
-        login.style.opacity = 1;
       },
       3000,
       [

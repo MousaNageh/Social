@@ -13,7 +13,11 @@ var _store = _interopRequireDefault(require("./store/store"));
 
 var _Auth = _interopRequireDefault(require("./views/auth/Auth.vue"));
 
-var _Post = _interopRequireDefault(require("./views/posts/Post.vue"));
+var _Post = _interopRequireDefault(require("./views/Post.vue"));
+
+var _Relations = _interopRequireDefault(require("./views/Relations.vue"));
+
+var _profile = _interopRequireDefault(require("./views/profile.vue"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -38,9 +42,13 @@ var routes = [{
     } else next("/");
   }
 }, {
-  name: "test",
-  path: "/test",
-  component: _Auth["default"]
+  name: "relations",
+  path: "/relations",
+  component: _Relations["default"]
+}, {
+  name: "profile",
+  path: "/profile",
+  component: _Relations["default"]
 }];
 
 var _default = new _vueRouter["default"]({

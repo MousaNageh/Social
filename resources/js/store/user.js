@@ -25,8 +25,8 @@ const mutations = {
 }
 const actions = {
     register({ commit }, data) {
-        commit('SET_USER_ID', data.user.id);
-        commit('SET_USER_SLUG', data.user.slug);
+        commit('SET_USER_ID', data.user.info.id);
+        commit('SET_USER_SLUG', data.user.info.slug);
         commit('SET_USER_TOKEN', data.token);
         commit('SET_USER', data.user);
         localStorage.setItem("token", data.token);

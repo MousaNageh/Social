@@ -113,7 +113,7 @@ export default {
       axios
         .post(`register2/${this.$store.getters.getUserSlug}`, form2)
         .then(res => {
-          this.$store.dispatch("setUser", res.data);
+          this.$store.dispatch("setUser", res.data.user);
           this.$store.dispatch("stopLoad");
           this.$emit("gotothirdstep");
         })

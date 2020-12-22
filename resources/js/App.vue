@@ -25,7 +25,7 @@ export default {
               }
             })
             .then(res => {
-              this.$store.dispatch("login", res.data);
+              this.$store.dispatch("login", res.data.user);
             })
             .catch(err => {
               console.error(err);

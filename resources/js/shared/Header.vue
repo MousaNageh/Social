@@ -32,7 +32,7 @@
             <router-link
               tag="li"
               class="nav-item mx-2"
-              to="/"
+              to="/relations"
               active-class="active"
             >
               <a class="nav-link" title="relations">
@@ -43,7 +43,7 @@
             <router-link
               tag="li"
               class="nav-item mx-2"
-              to="/"
+              to="/profile"
               active-class="active"
             >
               <a class="nav-link" title="profile">
@@ -54,7 +54,7 @@
             <router-link
               tag="li"
               class="nav-item mx-2"
-              to="/"
+              to="/create-post"
               active-class="active"
             >
               <a class="nav-link" title="make post">
@@ -74,8 +74,7 @@
                 active-class="active"
                 to="/"
               >
-                <i class="fa fa-sign-in" aria-hidden="true"></i>
-                <span class="d-inline d-sm-none m-1">log/sign in</span>
+                <i class="fa fa-bell-o" aria-hidden="true"></i>
               </a>
             </router-link>
             <router-link tag="li" class="nav-item mx-2" to="/">

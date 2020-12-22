@@ -32,8 +32,8 @@ var mutations = {
 var actions = {
   register: function register(_ref, data) {
     var commit = _ref.commit;
-    commit('SET_USER_ID', data.user.id);
-    commit('SET_USER_SLUG', data.user.slug);
+    commit('SET_USER_ID', data.user.info.id);
+    commit('SET_USER_SLUG', data.user.info.slug);
     commit('SET_USER_TOKEN', data.token);
     commit('SET_USER', data.user);
     localStorage.setItem("token", data.token);
@@ -42,13 +42,17 @@ var actions = {
   },
   login: function login(_ref2, user) {
     var commit = _ref2.commit;
-    commit('SET_USER_ID', user.id);
-    commit('SET_USER_SLUG', user.slug);
+    commit('SET_USER_ID', user.info.id);
+    commit('SET_USER_SLUG', user.info.slug);
     commit('SET_USER', user);
   },
   cleanToken: function cleanToken(_ref3) {
     var commit = _ref3.commit;
     commit('CLEAR_TOKEN');
+  },
+  setUser: function setUser(_ref4, user) {
+    var commit = _ref4.commit;
+    commit('SET_USER', user);
   }
 };
 var getters = {

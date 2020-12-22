@@ -6,7 +6,7 @@
           <div v-if="!realImage">
             <img
               class="card-img-top user-img"
-              src="/storage/adefltu/male.jpg"
+              src="/storage/default/male.jpg"
               v-if="user.gender == 0"
             />
             <img
@@ -70,19 +70,19 @@
             <li class="list-group-item">
               <h6>
                 <i class="fa fa-home" aria-hidden="true"></i>
-                school :
+                school : {{ user.school }}
               </h6>
             </li>
             <li class="list-group-item">
               <h6>
                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                university :
+                university : {{ user.faculty }}
               </h6>
             </li>
             <li class="list-group-item">
               <h6>
                 <i class="fa fa-briefcase" aria-hidden="true"></i>
-                job :
+                job : {{ user.job }}
               </h6>
             </li>
           </ul>
