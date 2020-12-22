@@ -63,7 +63,7 @@
         </button>
         <button
           class="sign-in"
-          :disabled="$v.$invalid"
+          :disabled="$v.$invalid || avatar == ''"
           @click.prevent="gotoThirdStep"
           :class="['sign-in', { 'envalid-data': $v.$invalid }]"
         >
@@ -110,6 +110,9 @@ export default {
     gotoThirdStep() {
       this.$store.dispatch("load");
       let form2 = new formData(this.$refs.form2);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${this.$store.getters.getUserToken}`;
       axios
         .post(`register2/${this.$store.getters.getUserSlug}`, form2)
         .then(res => {

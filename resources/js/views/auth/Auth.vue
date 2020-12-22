@@ -49,11 +49,12 @@ export default {
   },
   components: { login, register },
   mounted() {
-    setInterval(
+    let timer = setInterval(
       function(img) {
         let x = Math.floor(Math.random() * img.length);
         let login = document.querySelector(".login");
-        login.style.backgroundImage = `url(${img[x]})`;
+        if (login) login.style.backgroundImage = `url(${img[x]})`;
+        else clearInterval(timer);
       },
       3000,
       [

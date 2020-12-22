@@ -79,6 +79,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import formData from "form-data";
+import axios from "axios";
 export default {
   data() {
     return {

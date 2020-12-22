@@ -5,6 +5,7 @@ import auth from "./views/auth/Auth.vue"
 import post from "./views/Post.vue";
 import relations from "./views/Relations.vue"
 import profile from "./views/profile.vue"
+import CreatePost from './views/CreatePost.vue'
 Vue.use(VueRouter);
 const routes = [{
         name: "posts",
@@ -37,8 +38,13 @@ const routes = [{
     {
         name: "profile",
         path: "/profile",
-        component: relations
+        component: profile
     },
+    {
+        name: "create-post",
+        path: "/create-post",
+        component: CreatePost
+    }
 ];
 export default new VueRouter({
     mode: "history",

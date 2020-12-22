@@ -59,25 +59,20 @@
             >
               <a class="nav-link" title="make post">
                 <i class="fa fa-plus" aria-hidden="true"></i>
-                <span class="d-inline d-sm-none m-1">Make post</span>
+                <span class="d-inline d-sm-none m-1">create post</span>
               </a>
             </router-link>
             <router-link
               tag="li"
               class="nav-item mx-2"
-              to="/"
+              to="/notifications"
               active-class="active"
             >
-              <a
-                class="nav-link"
-                title="log/sign in"
-                active-class="active"
-                to="/"
-              >
+              <a class="nav-link" title="notifications">
                 <i class="fa fa-bell-o" aria-hidden="true"></i>
               </a>
             </router-link>
-            <router-link tag="li" class="nav-item mx-2" to="/">
+            <router-link tag="li" class="nav-item mx-2" to="/logout">
               <a class="nav-link" title="logout">
                 <i class="fa fa-power-off" aria-hidden="true"></i>
                 <span class="d-inline d-sm-none m-1">logout</span>

@@ -19,6 +19,8 @@ var _Relations = _interopRequireDefault(require("./views/Relations.vue"));
 
 var _profile = _interopRequireDefault(require("./views/profile.vue"));
 
+var _CreatePost = _interopRequireDefault(require("./views/CreatePost.vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].use(_vueRouter["default"]);
@@ -48,7 +50,11 @@ var routes = [{
 }, {
   name: "profile",
   path: "/profile",
-  component: _Relations["default"]
+  component: _profile["default"]
+}, {
+  name: "create-post",
+  path: "/create-post",
+  component: _CreatePost["default"]
 }];
 
 var _default = new _vueRouter["default"]({
